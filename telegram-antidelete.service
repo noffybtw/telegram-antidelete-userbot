@@ -1,0 +1,41 @@
+[Unit]
+Description=Telegram Anti-Delete Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/telegram-antidelete
+ExecStart=/root/telegram-antidelete/venv/bin/python3 main.py
+Restart=on-failure
+RestartSec=10
+# Дать досылать накопленные алерты по SIGTERM, а не убивать сразу
+KillSignal=SIGTERM
+TimeoutStopSec=30
+StandardOutput=journal
+StandardError=journal
+
+# Домашний каталог сервису только для чтения (см. ниже), а генератору токенов
+# YouTube и самому yt-dlp нужен записываемый кэш. Без этой строки generate_once.js
+# падает на mkdir ~/.cache, токена нет, и YouTube отвечает «подтвердите, что вы
+# не робот» даже с рабочими куками.
+Environment=XDG_CACHE_HOME=/root/telegram-antidelete/.cache
+
+# Ограничения: у процесса ключи от аккаунта, лишний доступ ему не нужен
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+# ProtectHome=true спрятал бы /root вместе с самим проектом,
+# поэтому read-only + точечная запись только в свою папку
+ProtectHome=read-only
+ReadWritePaths=/root/telegram-antidelete
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

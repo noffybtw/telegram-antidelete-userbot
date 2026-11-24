@@ -1,0 +1,78 @@
+# СЕКРЕТЫ — никогда не коммитить
+.env
+# редакторские артефакты вокруг .env (vim/nano/бэкапы), но не сам шаблон
+.env.*
+!.env.example
+*.session
+*.session-journal
+# временные файлы редакторов
+*.swp
+*.swo
+*~
+
+# Локальные данные
+media/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Логи прогонов
+*.log
+
+# Бэкапы (зашифрованы, но всё равно не в git)
+backups/
+restored/
+
+# Собранные архивы поставки
+dist/
+
+# Модель распознавания речи (~465 МБ, качается сама при первом голосовом)
+models/
+# Временные файлы загрузчика по ссылке
+downloads/
+# Куки для yt-dlp — это доступ к твоим аккаунтам на площадках
+cookies.txt
+*.cookies.txt
+cookies.*.txt
+# Список прокси — там логин и пароль от платного сервиса
+proxies.txt
+*.proxies.txt
+# Промежуточные файлы приёмки: живут доли секунды, но содержимое то же самое —
+# если приём оборвётся на полпути, они останутся лежать с секретами внутри
+cookies.incoming
+proxies.incoming
+# Генератор PO-токенов для YouTube: ~190 МБ вместе с node_modules,
+# собирается install.sh из исходников
+pot-provider/
+# артефакт сторонних инструментов, к проекту отношения не имеет
+:memory:.ses
+# Каталог gpg для бэкапов (создаётся backup.sh, ключей там нет, но и в git ему нечего делать)
+.gnupg/
+# Кэш yt-dlp и генератора токенов YouTube
+.cache/
+# Копия предыдущей версии, которую делает update.sh
+.prev-version/
+
+# VPS copy for GitHub (03.11.2026): never commit these
+.env
+.env.*
+!.env.example
+*.session
+*.session-journal
+*.db
+*.db-*
+media/
+backups/
+models/
+dist/
+cookies.txt
+proxies.txt
+.gnupg/
+pot-provider/
+EXPORT.md
